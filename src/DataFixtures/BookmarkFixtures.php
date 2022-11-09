@@ -13,12 +13,6 @@ class BookmarkFixtures extends Fixture
         $file = file_get_contents(__DIR__."/data/bookmarks.json");
         $datas = json_decode($file, true);
 
-        foreach($datas as $data) {
-            BookmarkFactory::createOne([
-                'name' => $data["name"],
-                'url' => $data["url"],
-                'description' => $data["description"],
-            ]);
-        }
+        BookmarkFactory::createSequence($datas);
     }
 }
