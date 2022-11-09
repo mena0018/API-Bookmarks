@@ -60,7 +60,8 @@
     },
     "scripts-descriptions": {
         "start": "Launch the web server locally",
-        "config": "Display the current configuration"
+        "config": "Display the current configuration",
+        "db": "Reset of the databse"
     },
     "scripts": {
         "test-cs": "php-cs-fixer fix --dry-run\n",
@@ -69,6 +70,12 @@
         "start": [
             "Composer\\Config::disableProcessTimeout",
             "symfony serve"
+        ],
+        "db": [
+            "php bin/console doctrine:database:drop --force",
+            "php bin/console doctrine:database:create",
+            "php bin/console doctrine:migrations:migrate --no-interaction",
+            "php bin/console doctrine:fixtures:load --no-interaction"
         ],
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
