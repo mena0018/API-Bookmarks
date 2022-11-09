@@ -63,6 +63,9 @@
         "config": "Display the current configuration"
     },
     "scripts": {
+        "test-cs": "php-cs-fixer fix --dry-run\n",
+        "fix-cs": "php-cs-fixer fix",
+        "test": "@test:cs\n",
         "start": [
             "Composer\\Config::disableProcessTimeout",
             "symfony serve"
