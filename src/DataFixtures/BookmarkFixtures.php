@@ -10,7 +10,7 @@ class BookmarkFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $file = file_get_contents(__DIR__."/data/bookmarks.json");
+        $file = file_get_contents(__DIR__.'/data/bookmarks.json');
         $datas = json_decode($file, true);
 
         BookmarkFactory::createSequence($datas);
