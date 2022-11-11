@@ -25,9 +25,11 @@
 
 ```bash
   composer start
-  http://127.0.0.1:8000/   
+  http://127.0.0.1:8000/
 ```
 
 ### Aperçu
 
-*Réalisé par MENAD Rabie*
+![Screenshot 2022-11-11 at 15 47 24](https://user-images.githubusercontent.com/89834824/201364168-f049f277-627b-451a-b806-ed1edd3103f0.png)
+
+_Réalisé par MENAD Rabie_
