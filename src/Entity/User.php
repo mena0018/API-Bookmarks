@@ -17,15 +17,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Get(),
-        new Put(),
-        new Patch(),
+        new Put(
+            denormalizationContext: ['groups' => ['set_User']],
+            security: "is_granted('ROLE_USER')"
+        ),
+        new Patch(
+            denormalizationContext: ['groups' => ['set_User']],
+            security: "is_granted('ROLE_USER')"
+        ),
     ],
     normalizationContext: ['groups' => ['get_User']],
-    denormalizationContext: ['groups' => ['set_User']],
 )]
-#[Get(normalizationContext: ['groups' => ['get_User']])]
-#[Put(denormalizationContext: ['groups' => ['set_User']])]
-#[Patch(denormalizationContext: ['groups' => ['set_User']])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -87,7 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->login;
+        return (string)$this->login;
     }
 
     /**
@@ -95,7 +97,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->login;
+        return (string)$this->login;
     }
 
     /**
