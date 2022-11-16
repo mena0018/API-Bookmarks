@@ -33,6 +33,7 @@ class UserDenormalizer implements ContextAwareDenormalizerInterface, Denormalize
     public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         $alreadyCalled = isset($context[self::ALREADY_CALLED]);
+
         return User::class == $type && !$alreadyCalled;
     }
 
@@ -55,6 +56,7 @@ class UserDenormalizer implements ContextAwareDenormalizerInterface, Denormalize
         if (isset($data['password'])) {
             $data['password'] = $this->passwordHasher->hashPassword($user, $data['password']);
         }
+
         return $this->denormalizer->denormalize($data, $type, $format, $context);
     }
 }
