@@ -12,17 +12,14 @@ class UserFixtures extends Fixture
     {
         UserFactory::createOne([
             'login' => 'user1',
-            'roles' => ['ROLE_ADMIN'],
             'password' => 'test',
         ]);
         UserFactory::createOne([
             'login' => 'user2',
-            'roles' => ['ROLE_ADMIN'],
             'password' => 'test',
         ]);
         UserFactory::createOne([
             'login' => 'user3',
-            'roles' => ['ROLE_ADMIN'],
             'password' => 'test',
         ]);
 
