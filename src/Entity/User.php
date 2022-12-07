@@ -19,11 +19,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(),
         new Put(
             denormalizationContext: ['groups' => ['set_User']],
-            security: "is_granted('ROLE_USER')"
+            security: "is_granted('ROLE_USER') and object == user"
         ),
         new Patch(
             denormalizationContext: ['groups' => ['set_User']],
-            security: "is_granted('ROLE_USER')"
+            security: "is_granted('ROLE_USER') and object == user"
         ),
     ],
     normalizationContext: ['groups' => ['get_User']],
