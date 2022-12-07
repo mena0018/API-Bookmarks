@@ -23,6 +23,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new GetCollection(
             uriTemplate: '/me',
             controller: GetMeController::class,
+            openapiContext: [
+                'summary' => 'Accès aux informations personnelles',
+                'description' => 'La route permet de retourner l id, le login, le nom,
+                                  le prénom et le mail de l\'utilisateur connecté',
+                'responses' => [
+                    '200' => [
+                        'description' => 'Succès, les informations personnelles de l\'utilisateur sont retournées',
+                    ],
+                    '401' => [
+                        'description' => 'Accès interdit, l\'utilisateur doit se connecter',
+                    ],
+                ],
+            ],
             paginationEnabled: false,
             normalizationContext: ['groups' => ['get_User', 'get_Me']],
             security: "is_granted('ROLE_USER')"
