@@ -4,9 +4,11 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Put;
 use App\Controller\GetAvatarController;
+use App\Controller\GetMeController;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,6 +20,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Get(),
+        new GetCollection(
+            uriTemplate: '/me',
+            controller: GetMeController::class,
+            paginationEnabled: false,
+            normalizationContext: ['groups' => ['get_User', 'get_Me']],
+            security: "is_granted('ROLE_USER')"
+        ),
         new Get(
             uriTemplate: '/users/{id}/avatar',
             formats: [
@@ -90,7 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $avatar = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['set_User'])]
+    #[Groups(['set_User', 'get_Me'])]
     private ?string $mail = null;
 
     public function getId(): ?int
