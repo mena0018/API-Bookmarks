@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
     operations: [
+        new Get(),
         new Get(
             uriTemplate: '/users/{id}/avatar',
             formats: [
@@ -24,14 +25,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
             controller: GetAvatarController::class,
             openapiContext: [
-                'summary' => "Accès aux avatars",
-                "description" => "La route permet de retourner l'avatar d'un utilisateur",
+                'summary' => 'Accès aux avatars',
+                'description' => "La route permet de retourner l'avatar d'un utilisateur",
                 'responses' => [
                     '200' => [
-                        'description' => "Succès, l'avatar de l\'utilisateur est retournée"
+                        'description' => "Succès, l'avatar de l\'utilisateur est retournée",
                     ],
                     '404' => [
-                        'description' => "Not Found, l'avatar de l\'utilisateur est introuvable"
+                        'description' => "Not Found, l'avatar de l\'utilisateur est introuvable",
                     ],
                 ],
                 'content' => [
@@ -39,8 +40,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
                         'schema' => [
                             'type' => 'string',
                             'format' => 'binary',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
             ]
         ),
