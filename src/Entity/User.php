@@ -23,6 +23,26 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'png' => 'image/png',
             ],
             controller: GetAvatarController::class,
+            openapiContext: [
+                'summary' => "Accès aux avatars",
+                "description" => "La route permet de retourner l'avatar d'un utilisateur",
+                'responses' => [
+                    '200' => [
+                        'description' => "Succès, l'avatar de l\'utilisateur est retournée"
+                    ],
+                    '404' => [
+                        'description' => "Not Found, l'avatar de l\'utilisateur est introuvable"
+                    ],
+                ],
+                'content' => [
+                    'image/png' => [
+                        'schema' => [
+                            'type' => 'string',
+                            'format' => 'binary',
+                        ]
+                    ]
+                ],
+            ]
         ),
         new Put(
             denormalizationContext: ['groups' => ['set_User']],
