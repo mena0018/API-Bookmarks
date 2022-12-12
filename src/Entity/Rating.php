@@ -30,6 +30,7 @@ class Rating
     private ?User $user = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Assert\Range(min: 0, max: 10)]
     private ?int $value = null;
 
     public function getId(): ?int
