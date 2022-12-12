@@ -12,9 +12,11 @@ use App\Controller\GetMeController;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ApiResource(
@@ -78,6 +80,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     normalizationContext: ['groups' => ['get_User']],
 )]
+#[UniqueEntity('login')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -87,24 +90,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\Regex(
+        pattern: '/^[^<,>,&,"]+$/',
+        message: 'Caractère non autorisé',
+    )]
     #[Groups(['get_User', 'set_User'])]
     private ?string $login = null;
 
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
     #[Groups(['set_User'])]
     private ?string $password = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\Regex(
+        pattern: '/^[^<,>,&,"]+$/',
+        message: 'Caractère non autorisé',
+    )]
     #[Groups(['get_User', 'set_User'])]
     private ?string $firstname = null;
 
     #[ORM\Column(length: 40)]
+    #[Assert\Regex(
+        pattern: '/^[^<,>,&,"]+$/',
+        message: 'Caractère non autorisé',
+    )]
     #[Groups(['get_User', 'set_User'])]
     private ?string $lastname = null;
 
@@ -112,6 +124,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $avatar = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\Email(
+        message: 'L\' email {{ value }} n\'est pas valide.',
+    )]
     #[Groups(['set_User', 'get_Me'])]
     private ?string $mail = null;
 
