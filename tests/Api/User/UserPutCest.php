@@ -16,6 +16,7 @@ class UserPutCest
             'login' => 'string',
             'firstname' => 'string',
             'lastname' => 'string',
+            'mail' => 'string:email',
         ];
     }
 

@@ -16,6 +16,7 @@ class UserPatchCest
             'login' => 'string',
             'firstname' => 'string',
             'lastname' => 'string',
+            'mail' => 'string:email',
         ];
     }
 
