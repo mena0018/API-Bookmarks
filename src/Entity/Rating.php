@@ -6,9 +6,14 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\RatingRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: RatingRepository::class)]
 #[ApiResource]
+#[UniqueEntity(
+    fields: ['user', 'bookmark']
+)]
 class Rating
 {
     #[ORM\Id]
