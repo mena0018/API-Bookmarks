@@ -51,4 +51,26 @@ class RatingPutCest
         $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
     }
 
+    public function authenticatedUserCanPutOwnData(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $user = UserFactory::createOne()->object();
+        $I->amLoggedInAs($user);
+
+        $dataInit = [
+            'user' => $user,
+            'value' => 5,
+        ];
+        RatingFactory::createOne($dataInit);
+
+        // 2. 'Act'
+        $dataPatch = ['value' => 7, 'user' => '/api/users/1'];
+        $I->sendPut('/api/ratings/1', $dataPatch);
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIsSuccessful();
+        $I->seeResponseIsJson();
+        $I->seeResponseIsAnEntity(Rating::class, '/api/ratings/1');
+        $I->seeResponseIsAnItem(self::expectedProperties(), $dataPatch);
+    }
 }
