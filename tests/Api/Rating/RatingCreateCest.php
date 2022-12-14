@@ -94,4 +94,22 @@ class RatingCreateCest
         // 3. 'Assert'
         $I->seeResponseCodeIs(422);
     }
+
+    public function authenticatedUserCantCreateRatingGreaterThan10(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        BookmarkFactory::createOne();
+        $user = UserFactory::createOne()->object();
+        $I->amLoggedInAs($user);
+
+        // 2. 'Act'
+        $I->sendPost('/api/ratings', [
+            'user' => '/api/users/1',
+            'bookmark' => '/api/bookmarks/1',
+            'value' => 11,
+        ]);
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIs(422);
+    }
 }
