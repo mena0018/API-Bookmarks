@@ -53,4 +53,27 @@ class RatingCreateCest
         $I->seeResponseIsAnEntity(Rating::class, '/api/ratings/1');
         $I->seeResponseIsAnItem(self::expectedProperties(), $data);
     }
+
+    public function authenticatedUserCantCreateRatingForBookmark(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $bookmark = BookmarkFactory::createOne();
+        $user = UserFactory::createOne()->object();
+        $I->amLoggedInAs($user);
+        RatingFactory::createOne([
+            'user' => $user,
+            'bookmark' => $bookmark,
+            'value' => 5,
+        ]);
+
+        // 2. 'Act'
+        $I->sendPost('/api/ratings', [
+            'user' => '/api/users/1',
+            'bookmark' => '/api/bookmarks/1',
+            'value' => 5,
+        ]);
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIs(422);
+    }
 }
