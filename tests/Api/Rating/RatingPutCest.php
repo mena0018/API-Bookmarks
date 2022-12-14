@@ -2,6 +2,7 @@
 
 namespace App\Tests\Api\Rating;
 
+use App\Entity\Rating;
 use App\Factory\RatingFactory;
 use App\Factory\UserFactory;
 use App\Tests\Support\ApiTester;
@@ -31,4 +32,23 @@ class RatingPutCest
         // 3. 'Assert'
         $I->seeResponseCodeIs(HttpCode::UNAUTHORIZED);
     }
+
+    public function authenticatedUserForbiddenToPutRatingOfOtherUser(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $user = UserFactory::createOne()->object();
+        $I->amLoggedInAs($user);
+        $user2 = UserFactory::createOne();
+
+        RatingFactory::createOne([
+            'user' => $user2,
+        ]);
+
+        // 2. 'Act'
+        $I->sendPut('/api/ratings/1');
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIs(HttpCode::FORBIDDEN);
+    }
+
 }
