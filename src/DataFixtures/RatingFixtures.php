@@ -6,27 +6,24 @@ use App\Factory\BookmarkFactory;
 use App\Factory\RatingFactory;
 use App\Factory\UserFactory;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class RatingFixtures extends Fixture
+class RatingFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $users = UserFactory::repository()->findAll();
-        $bookmarks = BookmarkFactory::repository()->randomRange(3, 7);
-
-        foreach ($users as $user) {
-            foreach ($bookmarks as $bookmark) {
+        foreach (UserFactory::all() as $user) {
+            foreach (BookmarkFactory::randomRange(3, 7) as $bookmark) {
                 RatingFactory::createOne([
                     'bookmark' => $bookmark,
                     'user' => $user,
                 ]);
             }
         }
-        $manager->flush();
     }
 
-    public function getDependencies()
+    public function getDependencies(): array
     {
         return [
             UserFixtures::class,
