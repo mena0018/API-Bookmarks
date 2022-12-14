@@ -20,7 +20,7 @@ class RatingCreateCest
         ];
     }
 
-    public function anonymousUserCantCreateNote(ApiTester $I): void
+    public function anonymousUserCantCreateRating(ApiTester $I): void
     {
         // 1. 'Arrange'
         UserFactory::createOne();
@@ -71,6 +71,24 @@ class RatingCreateCest
             'user' => '/api/users/1',
             'bookmark' => '/api/bookmarks/1',
             'value' => 5,
+        ]);
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIs(422);
+    }
+
+    public function authenticatedUserCantCreateNegativeRating(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        BookmarkFactory::createOne();
+        $user = UserFactory::createOne()->object();
+        $I->amLoggedInAs($user);
+
+        // 2. 'Act'
+        $I->sendPost('/api/ratings', [
+            'user' => '/api/users/1',
+            'bookmark' => '/api/bookmarks/1',
+            'value' => -5,
         ]);
 
         // 3. 'Assert'
