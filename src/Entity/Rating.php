@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Repository\RatingRepository;
+use App\Validator\IsAuthenticatedUser;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -50,6 +51,7 @@ class Rating
 
     #[ORM\ManyToOne(inversedBy: 'ratings')]
     #[ORM\JoinColumn(nullable: false)]
+    #[IsAuthenticatedUser]
     private ?User $user = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
