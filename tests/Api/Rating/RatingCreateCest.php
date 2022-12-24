@@ -112,4 +112,23 @@ class RatingCreateCest
         // 3. 'Assert'
         $I->seeResponseCodeIs(422);
     }
+
+    public function authenticatedUserCantCreateForOthers(ApiTester $I): void
+    {
+        // 1. 'Arrange'
+        $user = UserFactory::createOne()->object();
+        $I->amLoggedInAs($user);
+        BookmarkFactory::createOne();
+        UserFactory::createOne();
+
+        // 2. 'Act'
+        $I->sendPost('/api/ratings', [
+            'user' => '/api/users/2',
+            'bookmark' => '/api/bookmarks/1',
+            'value' => 5,
+        ]);
+
+        // 3. 'Assert'
+        $I->seeResponseCodeIs(422);
+    }
 }
