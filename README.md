@@ -10,7 +10,7 @@
 ### Installation du projet
 
 ```bash
-  git clone https://iut-info.univ-reims.fr/gitlab/mena0018/api-bookmark.git
+  git clone https://github.com/mena0018/API-Bookmarks.git
   cd api-bookmark/
   composer install
 ```
@@ -31,5 +31,3 @@
 ### Aperçu
 
 ![Screenshot 2022-11-11 at 15 47 24](https://user-images.githubusercontent.com/89834824/201364168-f049f277-627b-451a-b806-ed1edd3103f0.png)
-
-_Réalisé par MENAD Rabie_
